@@ -1,0 +1,30 @@
+---
+# tasks file for bash
+
+- block:
+
+  - name: Configure .bashrc
+    template:
+      src: bashrc.j2
+      dest: "{{ ansible_env.HOME }}/.bashrc"
+      mode: 0644
+
+  - name: Create .bash_aliases
+    copy:
+      content: ""
+      dest: "{{ ansible_env.HOME }}/.bash_aliases"
+      mode: 0644
+      force: no
+
+  - name: Add global aliases
+    lineinfile:
+      path: "{{ ansible_env.HOME }}/.bash_aliases"
+      regexp: "alias {{ item.alias }}="
+      line: "alias {{ item.alias }}='{{ item.cmd }}'"
+    with_items:
+      - "{{ bash_aliases }}"
+      - "{{ bash_aliases_additional }}"
+
+  when: role_bash_enabled
+  tags: bash
+

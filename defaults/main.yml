@@ -1,0 +1,9 @@
+---
+# defaults file for bash
+
+role_bash_enabled: no
+
+bash_aliases: []
+bash_aliases_additional: []
+bash_prompt_dirtrim: 2
+
